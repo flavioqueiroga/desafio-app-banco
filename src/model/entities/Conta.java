@@ -1,6 +1,9 @@
 package model.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.TreeSet;
 
 public abstract class Conta {
 
@@ -9,6 +12,7 @@ public abstract class Conta {
     private Cliente cliente;
     protected Double saldo;
     private LocalDate dataAbertura;
+    private Set<Extrato> extrato = new TreeSet<>();
 
     public Conta(Integer numero, Integer agencia, Cliente cliente, Double saldo, LocalDate dataAbertura) {
         this.numero = numero;
@@ -57,5 +61,11 @@ public abstract class Conta {
     public void deposito(Double valor) {
         saldo -= valor;
     }
+
+    public void atualizaEztrato(Operacao op, LocalDateTime data, Double valor){
+        extrato.add(new Extrato(op, data, valor, this.saldo));
+    }
+
+    
 
 }

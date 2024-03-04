@@ -1,0 +1,47 @@
+package model.entities;
+
+import java.time.LocalDateTime;
+
+public class Extrato implements Comparable<Extrato> {
+
+    private Operacao operacao;
+    private LocalDateTime data;
+    private Double valor;
+    private Double saldoMomentaneo;
+
+    public Extrato(Operacao operacao, LocalDateTime data, Double valor, Double saldoPreOperacao) {
+        this.operacao = operacao;
+        this.data = data;
+        this.valor = valor;
+        this.saldoMomentaneo = saldoPreOperacao + valor;
+    }
+
+    public Operacao getOperacao() {
+        return operacao;
+    }
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public Double getSaldoMomentaneo() {
+        return saldoMomentaneo;
+    }
+
+    @Override
+    public int compareTo(Extrato other) {
+        return this.data.compareTo(other.getData());
+    }
+
+    @Override
+    public String toString() {
+        return "Extrato [operacao=" + operacao + ", data=" + data + ", valor=" + valor + ", saldoMomentaneo="
+                + saldoMomentaneo + "]";
+    }
+
+    
+}
