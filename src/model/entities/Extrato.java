@@ -1,6 +1,9 @@
 package model.entities;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import model.enums.Operacao;
 
 public class Extrato implements Comparable<Extrato> {
 
@@ -39,7 +42,7 @@ public class Extrato implements Comparable<Extrato> {
 
     @Override
     public String toString() {
-        return "Extrato [operacao=" + operacao + ", data=" + data + ", valor=" + valor + ", saldoMomentaneo="
+        return "Extrato [operacao: " + operacao + ", Data: " + data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + ", Valor: " + String.format("%.2f", valor) + ", Saldo no momento: "
                 + saldoMomentaneo + "]";
     }
 

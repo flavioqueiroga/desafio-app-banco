@@ -3,6 +3,7 @@ package model.services;
 import java.util.Set;
 import java.util.function.Predicate;
 
+
 import model.entities.Extrato;
 
 public class ExtratoServices {
@@ -17,6 +18,10 @@ public class ExtratoServices {
         return total;
     }
 
-    
+   
+
+
+
+
 
 }

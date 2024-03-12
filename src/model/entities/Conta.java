@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.TreeSet;
 
+import model.enums.Operacao;
+import model.exception.BancoException;
+
 public abstract class Conta {
 
     private Integer numero;
@@ -15,6 +18,10 @@ public abstract class Conta {
     private Set<Extrato> extrato = new TreeSet<>();
 
     public Conta(Integer numero, Integer agencia, Cliente cliente, Double saldo, LocalDate dataAbertura) {
+        if (saldo < 0){
+            throw new BancoException("Não é possível criar uma conta com saldo negativo.");
+        }
+        
         this.numero = numero;
         this.agencia = agencia;
         this.cliente = cliente;
@@ -26,24 +33,12 @@ public abstract class Conta {
         return numero;
     }
 
-    public void setNumero(Integer numero) {
-        this.numero = numero;
-    }
-
     public Integer getAgencia() {
         return agencia;
     }
 
-    public void setAgencia(Integer agencia) {
-        this.agencia = agencia;
-    }
-
     public Cliente getCliente() {
         return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     public Double getSaldo() {
@@ -55,17 +50,19 @@ public abstract class Conta {
     }
 
     public void saque(Double valor) {
+        if (valor <= 0)
+            throw new BancoException("Informe um valor positivo para efetuar o saque");
         saldo -= valor;
     }
 
     public void deposito(Double valor) {
-        saldo -= valor;
+        if (valor <= 0)
+            throw new BancoException("Não é possivel efetuar deposito de valor menor ou igual a zero");
+        saldo += valor;
     }
 
-    public void atualizaEztrato(Operacao op, LocalDateTime data, Double valor){
+    public void atualizaExtrato(Operacao op, LocalDateTime data, Double valor) {
         extrato.add(new Extrato(op, data, valor, this.saldo));
     }
-
-    
 
 }
