@@ -16,7 +16,7 @@ public class Extrato implements Comparable<Extrato> {
         this.operacao = operacao;
         this.data = data;
         this.valor = valor;
-        this.saldoMomentaneo = saldoPreOperacao + valor;
+        this.saldoMomentaneo = saldoPreOperacao;
     }
 
     public Operacao getOperacao() {

@@ -19,6 +19,13 @@ public final class ContaServices {
         return contasCadastradas;
     }
 
+    public static Conta obterConta(int numeroConta){
+        return contasCadastradas.stream()
+        .filter(c -> c.getNumero().equals(numeroConta))
+        .findFirst()
+        .orElseThrow(() -> new BancoException("Conta não encontrada"));
+    }
+
     public Conta criarContaCC(TipoConta tipo, int numConta, int numAgencia, String nomeCliente, Long cpf,
             LocalDate dataNascimento, double limite) {
 
@@ -44,15 +51,13 @@ public final class ContaServices {
     }
 
     private Cliente criarCliente(String nomeCliente, Long cpf, LocalDate dataNascimento) {
+        
         Cliente cliente = new Cliente(nomeCliente, cpf, dataNascimento);
         return cliente;
     }
 
     public void alterarLimite(int numeroConta, double novoLimite) {
-        Conta conta = contasCadastradas.stream()
-            .filter(c -> c.getNumero().equals(numeroConta))
-            .findFirst()
-            .orElseThrow(() -> new BancoException("Conta não encontrada"));
+        Conta conta = obterConta(numeroConta);
 
         if (conta instanceof ContaCorrente)
             ((ContaCorrente)conta).atualizaLimite(novoLimite);

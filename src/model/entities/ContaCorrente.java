@@ -26,6 +26,11 @@ public class ContaCorrente extends Conta{
         return "ContaCorrente [limite=" + limite + "]";
     }
 
+    @Override
+    public Double obterSaldoTransacao() {
+        return saldo + limite;
+    }
+
 
 
     

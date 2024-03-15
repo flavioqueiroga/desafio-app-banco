@@ -3,25 +3,32 @@ package UI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.function.Function;
 
 import model.entities.Conta;
+import model.entities.Extrato;
+import model.enums.Operacao;
 import model.enums.TipoConta;
 import model.services.ContaServices;
+import model.services.ExtratoServices;
 import model.services.TransacaoService;
 
 public final class TelaInicial {
 
     private ContaServices contaServices;
     private TransacaoService transacaoServices;
+    private ExtratoServices extratoServices;
 
     public TelaInicial() {
         this.contaServices = new ContaServices();
         this.transacaoServices = new TransacaoService();
+        this.extratoServices = new ExtratoServices();
     }
 
     public String getMenu() {
-
-        StringBuilder texto = new StringBuilder("MENU PRINCIPAL: \n");
+        
+        StringBuilder texto = new StringBuilder("##########  MENU PRINCIPAL ###############\n");
         texto.append("1. Abertura de Conta.\n");
         texto.append("2. Efetuar deposito.\n");
         texto.append("3. Retirada (saque).\n");
@@ -31,7 +38,7 @@ public final class TelaInicial {
         texto.append("7. Imprimir extrato da conta na tela.\n");
         texto.append("8. Imprimir todos Depósitos.\n");
         texto.append("9. Imprimir todos os saques.\n");
-        texto.append("0. SAIR");
+        texto.append("10. SAIR");
         
         return texto.toString();
     }
@@ -101,6 +108,65 @@ public final class TelaInicial {
         contaServices.alterarLimite(numeroConta, valor);
     }
 
+    public void transferencias(Scanner sc) {
+        clearScreen();
+        System.out.println("###########  TRANSFERENCIAS  #########");
+        System.out.print("Informe a conta de Origem: ");
+        int numeroContaOrigem = sc.nextInt();
+        System.out.print("Informe a conta de Destino: ");
+        int numeroContaDestino = sc.nextInt();
+        System.out.print("Informe o valor da transferencia: ");
+        double valor = sc.nextDouble();
 
+        transacaoServices.transferir(numeroContaOrigem, numeroContaDestino, valor);
+
+        System.out.println("Transferência realizada com sucesso");
+    }
+
+
+    public void clearScreen() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
+
+    public void gerarArquivoExtrato(Scanner sc) {
+        System.out.print("Informe o número da conta: ");
+        int numeroConta = sc.nextInt();
+        extratoServices.gerarExtratoCSV(numeroConta);
+    }
+
+    public void imprimirExtratoTela(Scanner sc) {
+        clearScreen();
+        
+        System.out.print("Informe o nº da conta: ");
+        int numeroConta = sc.nextInt();
+        Set<Extrato> extrato = extratoServices.obterExtratoImpressao(numeroConta);
+        System.out.println("###########  EXTRATO DETALHADO  #########");
+        extrato.forEach(System.out::println);
+
+    }
+
+    
+    public void imprimirDepositos(Scanner sc) {
+        clearScreen();
+
+        System.out.print("Informe o nº da conta: ");
+        int numeroConta = sc.nextInt();
+        Set<Extrato> extrato = extratoServices.obterExtratoResumido(numeroConta, Operacao.DEPOSITO);
+
+        System.out.println("###########  EXTRATO - DEPÓSITOS  #########");
+        extrato.forEach(System.out::println);
+    }
+
+    public void imprimirSaques(Scanner sc) {
+        clearScreen();
+        
+        System.out.print("Informe o nº da conta: ");
+        int numeroConta = sc.nextInt();
+        Set<Extrato> extrato = extratoServices.obterExtratoResumido(numeroConta, Operacao.SAQUE);
+
+        System.out.println("###########  EXTRATO - RETIRADAS  #########");
+        extrato.forEach(System.out::println);
+    }
    
 }
