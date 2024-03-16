@@ -1,6 +1,9 @@
 package model.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import model.enums.Operacao;
 
 public class ContaPoupanca extends Conta {
 
@@ -20,8 +23,10 @@ public class ContaPoupanca extends Conta {
         this.taxaRemuneracao = novaTaxaRemuneracao;
     }
 
-    public void atualizaSaldo() {
-        saldo += saldo * taxaRemuneracao;
+    public void aplicarRemuneracao() {
+        Double remuneracao = (saldo * taxaRemuneracao) / 100;
+        saldo += remuneracao;
+        atualizaExtrato(Operacao.REMUNERACAO, LocalDateTime.now(), remuneracao);
     }
 
 

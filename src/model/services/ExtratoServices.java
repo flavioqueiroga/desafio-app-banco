@@ -2,6 +2,8 @@ package model.services;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -37,11 +39,14 @@ public class ExtratoServices {
             bw.write(header);
             for (Extrato ex : conta.getExtrato()) {
                 bw.newLine();
-                bw.write(ex.getOperacao() + ", " + ex.getData() + ", " 
+                bw.write(ex.getOperacao() + ", " 
+                        + ex.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + ", " 
                         + ex.getValor() + ", " + ex.getSaldoMomentaneo());
             }
-        } catch (Exception e) {
-            throw new BancoException("Erro ao escrever o extrato: " + e.getMessage());
+        } catch (IOException e) {
+            throw new BancoException("Erro ao escrever o arquivo extrato: " + e.getMessage());
+        } catch (Exception e){
+            throw new BancoException("Erro inesperado ao gerar arquivo de extrato: " + e.getMessage());
         }
     }
 

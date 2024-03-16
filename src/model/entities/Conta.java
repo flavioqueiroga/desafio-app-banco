@@ -22,6 +22,7 @@ public abstract class Conta {
             throw new BancoException("Não é possível criar uma conta com saldo negativo.");
         }
 
+
         this.numero = numero;
         this.agencia = agencia;
         this.cliente = cliente;

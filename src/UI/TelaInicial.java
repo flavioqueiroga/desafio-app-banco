@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.function.Function;
 
 import model.entities.Conta;
 import model.entities.Extrato;
@@ -27,8 +26,8 @@ public final class TelaInicial {
     }
 
     public String getMenu() {
-        
-        StringBuilder texto = new StringBuilder("##########  MENU PRINCIPAL ###############\n");
+
+        StringBuilder texto = new StringBuilder("\n##########  MENU PRINCIPAL ###############\n");
         texto.append("1. Abertura de Conta.\n");
         texto.append("2. Efetuar deposito.\n");
         texto.append("3. Retirada (saque).\n");
@@ -38,135 +37,153 @@ public final class TelaInicial {
         texto.append("7. Imprimir extrato da conta na tela.\n");
         texto.append("8. Imprimir todos Depósitos.\n");
         texto.append("9. Imprimir todos os saques.\n");
-        texto.append("10. SAIR");
-        
+        texto.append("10. APlicar taxa de remuneração.\n");
+        texto.append("99. SAIR");
+
         return texto.toString();
     }
 
     public void opcaoAberturaConta(Scanner sc) {
-
-        System.out.print("Nome do cliente: ");
-        String nomeCliente = sc.next();
-        System.out.print("CPF: ");
-        long cpf = sc.nextLong();
-        System.out.print("Data nascimento (DD/MM/YYYY): ");
-        LocalDate dataNascimento = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        System.out.print("Número da conta: ");
-        int numConta = sc.nextInt();
-        System.out.print("Número da agencia: ");
-        int numAgencia = sc.nextInt();
-        System.out.print("Tipo da conta (CC (Para conta corrente) ou CP (para conta poupança.)): ");
-        String tipo = sc.next();
+        imprimeTitulo("Abertura de Conta");
+        String nomeCliente = inputString(sc, "Nome do cliente: ");
+        long cpf = inputLong(sc, "CPF: ");
+        LocalDate dataNascimento = inputDate(sc, "Data nascimento (DD/MM/YYYY): ");
+        int numConta = inputInt(sc, "Número da conta: ");
+        int numAgencia = inputInt(sc, "Número da agencia: ");
+        String tipo = inputString(sc, "Tipo da conta (CC (Para conta corrente) ou CP (para conta poupança.)): ");
         TipoConta tipoConta = TipoConta.getPorCodigo(tipo);
 
         Conta conta = null;
         if (tipoConta.equals(TipoConta.CORRENTE)) {
-            System.out.print("Limite: ");
-            Double limite = sc.nextDouble();
-            conta = contaServices.criarContaCC(tipoConta, numConta, numAgencia, nomeCliente, cpf, dataNascimento, limite);
+            Double limite = inputDouble(sc, "Limite: ");
+            conta = contaServices.criarContaCC(tipoConta, numConta, numAgencia, nomeCliente, cpf, dataNascimento,
+                    limite);
 
         } else if (tipoConta.equals(TipoConta.POUPANCA)) {
-            System.out.print("Taxa de Remuneração: ");
-            Double taxaRemuneracao = sc.nextDouble();
+            Double taxaRemuneracao = inputDouble(sc, "Taxa de Remuneração: ");
             conta = contaServices.criarContaCP(tipoConta, numConta, numAgencia, nomeCliente, cpf, dataNascimento,
                     taxaRemuneracao);
         }
 
-        System.out.println("A conta de número: " + conta.getNumero() + " foi criada com sucesso !");
+        System.out.println("\n ******** A conta de número: " + conta.getNumero() + " foi criada com sucesso ! ********");
 
     }
 
     public void efetuarDeposito(Scanner sc) {
-        
-        System.out.print("Informe o número da conta: ");
-        int numeroConta = sc.nextInt();
-        
-        System.out.print("Informe valor do deposito: ");
-        double valor = sc.nextDouble();
+
+        int numeroConta = inputInt(sc, "Informe o número da conta: ");
+        double valor = inputDouble(sc, "Informe valor do deposito: ");
 
         transacaoServices.depositar(valor, numeroConta);
 
+        System.out.println("\n********* Deposito realizado com sucesso **********");
     }
 
     public void saque(Scanner sc) {
-        System.out.print("Informe o número da conta: ");
-        int numeroConta = sc.nextInt();
-        
-        System.out.print("Informe valor do saque: ");
-        double valor = sc.nextDouble();
+        int numeroConta = inputInt(sc, "Informe o número da conta: ");
+        double valor = inputDouble(sc, "Informe valor do saque: ");
 
         transacaoServices.saque(valor, numeroConta);
+
+        System.out.println("\n*************** Saque realizado com sucesso! **********");
     }
 
     public void alterarLimite(Scanner sc) {
-        System.out.print("Informe o número da conta: ");
-        int numeroConta = sc.nextInt();
-        
-        System.out.print("Informe o novo limite: ");
-        double valor = sc.nextDouble();
+        int numeroConta = inputInt(sc, "Informe o número da conta: ");
+        double valor = inputDouble(sc, "Informe o novo limite: ");
 
         contaServices.alterarLimite(numeroConta, valor);
+
+        System.out.println("\n *********  Limite alterado com sucesso ********** ");
     }
 
     public void transferencias(Scanner sc) {
         clearScreen();
         System.out.println("###########  TRANSFERENCIAS  #########");
-        System.out.print("Informe a conta de Origem: ");
-        int numeroContaOrigem = sc.nextInt();
-        System.out.print("Informe a conta de Destino: ");
-        int numeroContaDestino = sc.nextInt();
-        System.out.print("Informe o valor da transferencia: ");
-        double valor = sc.nextDouble();
+        int numeroContaOrigem = inputInt(sc, "Informe a conta de Origem: ");
+        int numeroContaDestino = inputInt(sc, "Informe a conta de Destino: ");
+        double valor = inputDouble(sc, "Informe o valor da transferencia: ");
 
         transacaoServices.transferir(numeroContaOrigem, numeroContaDestino, valor);
 
-        System.out.println("Transferência realizada com sucesso");
+        System.out.println("\n ******** Transferência realizada com sucesso *********** ");
     }
 
-
-    public void clearScreen() {
-		System.out.print("\033[H\033[2J");
-		System.out.flush();
-	}
-
     public void gerarArquivoExtrato(Scanner sc) {
-        System.out.print("Informe o número da conta: ");
-        int numeroConta = sc.nextInt();
+        int numeroConta = inputInt(sc, "Informe o número da conta: ");
         extratoServices.gerarExtratoCSV(numeroConta);
+        System.out.println("\n***** Arquivo salvo com sucesso *********");
     }
 
     public void imprimirExtratoTela(Scanner sc) {
         clearScreen();
-        
-        System.out.print("Informe o nº da conta: ");
-        int numeroConta = sc.nextInt();
+        int numeroConta = inputInt(sc, "Informe o nº da conta: ");
         Set<Extrato> extrato = extratoServices.obterExtratoImpressao(numeroConta);
-        System.out.println("###########  EXTRATO DETALHADO  #########");
+        System.out.println("\n###########  EXTRATO DETALHADO  #########");
         extrato.forEach(System.out::println);
 
     }
 
-    
     public void imprimirDepositos(Scanner sc) {
         clearScreen();
-
-        System.out.print("Informe o nº da conta: ");
-        int numeroConta = sc.nextInt();
+        int numeroConta = inputInt(sc, "Informe o nº da conta: ");
         Set<Extrato> extrato = extratoServices.obterExtratoResumido(numeroConta, Operacao.DEPOSITO);
 
-        System.out.println("###########  EXTRATO - DEPÓSITOS  #########");
+        System.out.println("\n###########  EXTRATO - DEPÓSITOS  #########");
         extrato.forEach(System.out::println);
     }
 
     public void imprimirSaques(Scanner sc) {
         clearScreen();
-        
-        System.out.print("Informe o nº da conta: ");
-        int numeroConta = sc.nextInt();
+        int numeroConta = inputInt(sc, "Informe o nº da conta: ");
         Set<Extrato> extrato = extratoServices.obterExtratoResumido(numeroConta, Operacao.SAQUE);
 
         System.out.println("###########  EXTRATO - RETIRADAS  #########");
         extrato.forEach(System.out::println);
     }
-   
+
+    public void aplicarTaxaRemuneracao(Scanner sc) {
+        clearScreen();
+        int numeroConta = inputInt(sc, "Informe o nº da conta: ");
+        contaServices.aplicarTaxaRemuneracao(numeroConta);
+
+        System.out.println("****** Remuneração aplicada com sucesso *********");
+    }
+
+    private String inputString(Scanner sc, String label) {
+        System.out.print(label);
+        return sc.next();
+
+    }
+
+    private Double inputDouble(Scanner sc, String label) {
+        System.out.print(label);
+        return sc.nextDouble();
+
+    }
+
+    private int inputInt(Scanner sc, String label) {
+        System.out.print(label);
+        return sc.nextInt();
+    }
+
+    private LocalDate inputDate(Scanner sc, String label) {
+        System.out.print(label);
+        return LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    private Long inputLong(Scanner sc, String label) {
+        System.out.print(label);
+        return sc.nextLong();
+    }
+
+    private void imprimeTitulo(String msg) {
+        System.out.println("\n\n######### " + msg + " #############");
+    }
+
+    public void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
 }

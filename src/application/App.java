@@ -1,5 +1,6 @@
 package application;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.util.Scanner;
@@ -11,13 +12,13 @@ public class App {
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.US); // Para que os valores sejam aceitos com ponto (.) como separador.
+
         Scanner sc = new Scanner(System.in);
         TelaInicial telaInicial = new TelaInicial();
 
         int opcao = 0;
 
-        // Metodo para imprimir menu e escolher opção
-        while (opcao != 10) {
+        while (opcao != 99) { // Enquanto não escolhe opção 99 (SAIR) continuar exibindo MENU para o usuário
             System.out.println(telaInicial.getMenu());
             System.out.print("Informe o número da opçao: ");
             opcao = sc.nextInt();
@@ -25,13 +26,12 @@ public class App {
         }
 
         sc.close();
-
     }
 
     private static void executarOpcao(TelaInicial telaInicial, int opcao, Scanner sc) {
         try {
             switch (opcao) {
-                case 10:
+                case 99:
                     break;
                 case 1:
                     telaInicial.opcaoAberturaConta(sc);
@@ -60,11 +60,16 @@ public class App {
                 case 9:
                     telaInicial.imprimirSaques(sc);
                     break;
+                case 10:
+                    telaInicial.aplicarTaxaRemuneracao(sc);
+                    break;
+                default:
+                    System.out.println("\n\n***** Opção inválida. ****** \n\n");
             }
 
         } catch (BancoException e) {
             clearScreen();
-            System.out.println("\n********** Erro: " + e.getMessage() + "**************\n");
+            System.out.println("\n\n********** Erro: " + e.getMessage() + " **************\n\n");
 
             /*
              * System.out.println("######## ESCOLHA UMA OPÇÃO ########");
@@ -77,12 +82,9 @@ public class App {
             // return opcaoErro;
 
         } catch (DateTimeParseException e) {
-            System.out.println("Informe o formato de data correta.");
-            // return 0;
+            System.out.println("\n\n ********** Informe o formato de data correta. *********** \n\n");
+
         }
-
-        // return opcao;
-
     }
 
     public static void clearScreen() {
@@ -90,39 +92,4 @@ public class App {
         System.out.flush();
     }
 
-    // catch (RuntimeException e) {
-    // System.out.println("Erro inesperado");
-    // 1}
-
-    /*
-     * Set<Extrato> ext = new TreeSet<Extrato>();
-     * ext.add(new Extrato(Operacao.DEPOSITO, LocalDateTime.of(2024, 03, 01, 10, 00,
-     * 00),100.0, 0.0));
-     * ext.add(new Extrato(Operacao.DEPOSITO, LocalDateTime.of(2023, 02, 10, 21, 00,
-     * 00),200.0, 100.0));
-     * ext.add(new Extrato(Operacao.SAQUE, LocalDateTime.of(2024, 02, 28, 21, 00,
-     * 00),50.0, 100.0));
-     * ext.add(new Extrato(Operacao.DEPOSITO, LocalDateTime.of(2021, 02, 10, 21, 00,
-     * 00),1000.0, 100.0));
-     * 
-     * ExtratoServices es = new ExtratoServices();
-     * if (opcao == 8){
-     * 
-     * Set<Extrato> depositos = ext.stream().filter(e -> e.getOperacao() ==
-     * Operacao.DEPOSITO).collect(Collectors.toSet());
-     * 
-     * Double totalDepositos = depositos.stream()
-     * .map(d -> d.getValor())
-     * .reduce(0.0, (x,y) -> x + y);
-     * 
-     * 
-     * 
-     * //double total = es.filtroDoExtrato(ext, e ->
-     * e.getOperacao().equals(Operacao.DEPOSITO));
-     * 
-     * 
-     * depositos.forEach(System.out::println);
-     * System.out.println("TOTAL: " + totalDepositos);
-     * }
-     */
 }
