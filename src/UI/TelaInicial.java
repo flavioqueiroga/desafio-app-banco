@@ -37,7 +37,7 @@ public final class TelaInicial {
         texto.append("7. Imprimir extrato da conta na tela.\n");
         texto.append("8. Imprimir todos Depósitos.\n");
         texto.append("9. Imprimir todos os saques.\n");
-        texto.append("10. APlicar taxa de remuneração.\n");
+        texto.append("10. Aplicar taxa de remuneração.\n");
         texto.append("99. SAIR");
 
         return texto.toString();

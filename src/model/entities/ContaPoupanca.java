@@ -19,8 +19,8 @@ public class ContaPoupanca extends Conta {
         return taxaRemuneracao;
     }
 
-    public void atualizaTaxaRemuneracao(int novaTaxaRemuneracao) {
-        this.taxaRemuneracao = novaTaxaRemuneracao;
+    public void atualizaTaxaRemuneracao(double novaTaxa) {
+        this.taxaRemuneracao = novaTaxa;
     }
 
     public void aplicarRemuneracao() {
