@@ -44,7 +44,8 @@ public final class TelaInicial {
     }
 
     public void opcaoAberturaConta(Scanner sc) {
-        imprimeTitulo("Abertura de Conta");
+        clearScreen();
+        imprimeTitulo("ABERTURA DE CONTA");
         String nomeCliente = inputString(sc, "Nome do cliente: ");
         long cpf = inputLong(sc, "CPF: ");
         LocalDate dataNascimento = inputDate(sc, "Data nascimento (DD/MM/YYYY): ");
@@ -64,13 +65,14 @@ public final class TelaInicial {
             conta = contaServices.criarContaCP(tipoConta, numConta, numAgencia, nomeCliente, cpf, dataNascimento,
                     taxaRemuneracao);
         }
-
+        clearScreen();
         System.out.println("\n ******** A conta de número: " + conta.getNumero() + " foi criada com sucesso ! ********");
 
     }
 
     public void efetuarDeposito(Scanner sc) {
-
+        clearScreen();
+        imprimeTitulo("DEPÓSITO");
         int numeroConta = inputInt(sc, "Informe o número da conta: ");
         double valor = inputDouble(sc, "Informe valor do deposito: ");
 
@@ -80,6 +82,8 @@ public final class TelaInicial {
     }
 
     public void saque(Scanner sc) {
+        clearScreen();
+        imprimeTitulo("SAQUE");
         int numeroConta = inputInt(sc, "Informe o número da conta: ");
         double valor = inputDouble(sc, "Informe valor do saque: ");
 
@@ -89,6 +93,8 @@ public final class TelaInicial {
     }
 
     public void alterarLimite(Scanner sc) {
+        clearScreen();
+        imprimeTitulo("ALTERAR LIMITE");
         int numeroConta = inputInt(sc, "Informe o número da conta: ");
         double valor = inputDouble(sc, "Informe o novo limite: ");
 
@@ -99,7 +105,7 @@ public final class TelaInicial {
 
     public void transferencias(Scanner sc) {
         clearScreen();
-        System.out.println("###########  TRANSFERENCIAS  #########");
+        imprimeTitulo("TRANSFERENCIAS");
         int numeroContaOrigem = inputInt(sc, "Informe a conta de Origem: ");
         int numeroContaDestino = inputInt(sc, "Informe a conta de Destino: ");
         double valor = inputDouble(sc, "Informe o valor da transferencia: ");
@@ -110,6 +116,8 @@ public final class TelaInicial {
     }
 
     public void gerarArquivoExtrato(Scanner sc) {
+        clearScreen();
+        imprimeTitulo(" GERAR ARQUIVO EXTRATO ");
         int numeroConta = inputInt(sc, "Informe o número da conta: ");
         extratoServices.gerarExtratoCSV(numeroConta);
         System.out.println("\n***** Arquivo salvo com sucesso *********");
@@ -117,6 +125,7 @@ public final class TelaInicial {
 
     public void imprimirExtratoTela(Scanner sc) {
         clearScreen();
+        imprimeTitulo(" EXTRATO TELA ");
         int numeroConta = inputInt(sc, "Informe o nº da conta: ");
         Set<Extrato> extrato = extratoServices.obterExtratoImpressao(numeroConta);
         System.out.println("\n###########  EXTRATO DETALHADO  #########");
@@ -126,6 +135,7 @@ public final class TelaInicial {
 
     public void imprimirDepositos(Scanner sc) {
         clearScreen();
+        imprimeTitulo(" EXTRATO TELA - DEPÓSITOS ");
         int numeroConta = inputInt(sc, "Informe o nº da conta: ");
         Set<Extrato> extrato = extratoServices.obterExtratoResumido(numeroConta, Operacao.DEPOSITO);
 
@@ -135,6 +145,7 @@ public final class TelaInicial {
 
     public void imprimirSaques(Scanner sc) {
         clearScreen();
+        imprimeTitulo(" EXTRATO TELA - SAQUES ");
         int numeroConta = inputInt(sc, "Informe o nº da conta: ");
         Set<Extrato> extrato = extratoServices.obterExtratoResumido(numeroConta, Operacao.SAQUE);
 
@@ -144,6 +155,7 @@ public final class TelaInicial {
 
     public void aplicarTaxaRemuneracao(Scanner sc) {
         clearScreen();
+        imprimeTitulo(" APLICAR TAXA DE REMUNERAÇÃO ");
         int numeroConta = inputInt(sc, "Informe o nº da conta: ");
         contaServices.aplicarTaxaRemuneracao(numeroConta);
 

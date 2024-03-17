@@ -22,10 +22,12 @@ public class TransacaoService {
     }
 
     public void transferir(int numeroContaOrigem, int numeroContaDestino, double valor) {
-        
+        if (numeroContaDestino == numeroContaOrigem){
+            throw new BancoException("Não é permitido executar transferencias para a mesma conta.");
+        }
         int hora = LocalDateTime.now().getHour();
 
-        if (hora > 20 || hora < 6){
+        if (valor > VALOR_LIMITE_HORARIO && (hora > 20 || hora < 6)){
             throw new BancoException("As transferencias de valores acima de R$ " 
                 + VALOR_LIMITE_HORARIO +  " só podem ser executadas Até às " 
                 + HORA_LIMITE_DE 

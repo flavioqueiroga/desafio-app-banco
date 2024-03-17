@@ -69,17 +69,8 @@ public class App {
 
         } catch (BancoException e) {
             clearScreen();
-            System.out.println("\n\n********** Erro: " + e.getMessage() + " **************\n\n");
+            System.out.println("\n********** Erro: " + e.getMessage() + " **************");
 
-            /*
-             * System.out.println("######## ESCOLHA UMA OPÇÃO ########");
-             * System.out.println("0. Voltar ao Menu principal.");
-             * System.out.println("10. SAIR do programa.");
-             * System.out.print("Opção: ");
-             * 
-             * int opcaoErro = sc.nextInt();
-             */
-            // return opcaoErro;
 
         } catch (DateTimeParseException e) {
             System.out.println("\n\n ********** Informe o formato de data correta. *********** \n\n");
