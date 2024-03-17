@@ -22,7 +22,20 @@
 
 ## :wrench: Como executar o projeto
 
-Você pode [acessar o código fonte do projeto ](https://github.com/flavioqueiroga/desafio-app-banco/tree/main) ou [baixá-lo](https://github.com/flavioqueiroga/desafio-app-banco/archive/refs/heads/main.zip)
+- Você pode [acessar o código fonte do projeto ](https://github.com/flavioqueiroga/desafio-app-banco/tree/main) ou [baixá-lo](https://github.com/flavioqueiroga/desafio-app-banco/archive/refs/heads/main.zip)
+- Após efetuar o download do projeto, basta executar a classe principal "App" no pacote "application", que a aplicação irá abrir o MENU inicial no console ou em sua IDE de preferencia.
+
+## Utilizando a aplicação
+1. Assim que iniciar a execução da aplicação como mostrado no ....
+2. Aparecerá um MENU incial com todas as funcionalidades, cada uma com um respectivo número. Informe o nº da opção para prosseguir.
+3. De acordo com a opção será solicitada a entrada de informações para executar as operações.
+- *Veja exemplo abaixo*:![2-Opcao](https://github.com/flavioqueiroga/desafio-app-banco/assets/43221104/de2713a2-ef94-4794-a6fc-71632e28d79d)
+
+   
+
+
+
+
 
 ## Diagrama de classes
 
