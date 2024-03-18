@@ -24,22 +24,22 @@
 
 - Você pode [acessar o código fonte do projeto ](https://github.com/flavioqueiroga/desafio-app-banco/tree/main) ou [baixá-lo](https://github.com/flavioqueiroga/desafio-app-banco/archive/refs/heads/main.zip)
 - Após efetuar o download do projeto, basta executar a classe principal "App" no pacote "application", que a aplicação irá abrir o MENU inicial no console ou em sua IDE de preferencia.
+- 
 
 ## Utilizando a aplicação
-1. Assim que iniciar a execução da aplicação como mostrado no ....
+1. Assim que iniciar a execução da aplicação como mostrado no item [Como executar o projeto](#wrench-como-executar-o-projeto)
 2. Aparecerá um MENU incial com todas as funcionalidades, cada uma com um respectivo número. Informe o nº da opção para prosseguir.
 3. De acordo com a opção será solicitada a entrada de informações para executar as operações.
-- *Veja exemplo abaixo*:![2-Opcao](https://github.com/flavioqueiroga/desafio-app-banco/assets/43221104/de2713a2-ef94-4794-a6fc-71632e28d79d)
+- *Veja exemplo abaixo*: 
+![ExemploUso (6)](https://github.com/flavioqueiroga/desafio-app-banco/assets/43221104/7fe17ada-6878-4533-a95b-c8c537a696f2)
 
-   
-
-
-
+> [!NOTE]
+> Toda vez que finalizar uma funcionalidade, será mostrada uma mensagem de sucesso ou erro entre asteriscos.
 
 
 ## Diagrama de classes
 
-### Diagrama de Entidades
+### Pacote Entidades
 
 ```mermaid
 
@@ -90,7 +90,7 @@ namespace Entites {
         <<enumeration>>
         SAQUE
         DEPOSITO
-        REMUERACAO
+        REMUNERACAO
         ABERTURA
     }
 
@@ -100,5 +100,45 @@ namespace Entites {
         CORRENTE
         POUPANCA
     }
+}
+```
+
+### Pacote Services
+```mermaid
+classDiagram
+    TransacaoServices -- ContaServices
+    ExtratoServices -- ContaServices
+    namespace Services {
+    
+    class ContaServices {
+      -List~Conta~ contasCadastradas$ 
+      +obterConta(int numeroConta)$ Conta
+      +contaExiste(int numeroConta)$ boolean
+      +criarContaCC (TipoConta tipo, int numConta, int agencia, Cliente cliente, double remuneracao) Conta
+      +criarContaCP (TipoConta tipo, int numConta, int agencia, Cliente cliente, double limite) Conta
+      +alterarLimite (int numeroConta, double novoLimite) void
+      +aplicarTaxaRemuneracao (int numeroConta) void
+    }
+    
+    class ExtratoServices {
+      
+      +obterExtratoImpressao(int numeroConta) Set~Extrato~
+      +obterExtratoResumido(int numeroConta) Set~Extrato~
+      +gerarExtratoCSV(int numeroConta) void
+    }
+
+    class TransacaoServices {
+      
+      -int HORA_LIMITE_DE$ 
+      -int HORA_LIMITE_ATE$
+      -Double VALOR_LIMITE_HORARIO$
+      +depositar(double valor, int numeroConta) void
+      +saque(double valor, int numeroConta) void
+      +trasnferir (int numContaOrigem, int numContaDestino, double valor) void
+      
+    }
+
+    
+
 }
 ```
