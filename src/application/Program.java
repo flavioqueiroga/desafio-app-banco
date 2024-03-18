@@ -1,14 +1,14 @@
 package application;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
 import UI.TelaInicial;
 import model.exception.BancoException;
 
-public class App {
+public class Program {
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.US); // Para que os valores sejam aceitos com ponto (.) como separador.
@@ -18,12 +18,17 @@ public class App {
 
         int opcao = 0;
 
-        while (opcao != 99) { // Enquanto não escolhe opção 99 (SAIR) continuar exibindo MENU para o usuário
-            System.out.println(telaInicial.getMenu());
-            System.out.print("Informe o número da opçao: ");
-            opcao = sc.nextInt();
-            executarOpcao(telaInicial, opcao, sc);
+        try{
+            while (opcao != 99) { // Enquanto não escolhe opção 99 (SAIR) continuar exibindo MENU para o usuário
+                System.out.println(telaInicial.getMenu());
+                System.out.print("Informe o número da opçao: ");
+                opcao = sc.nextInt();
+                executarOpcao(telaInicial, opcao, sc);
+            }
+        } catch (InputMismatchException e){
+            System.out.println("\n\n***** Dado informado não corresponde com o esperado ****** \n\n");
         }
+
 
         sc.close();
     }
@@ -70,11 +75,8 @@ public class App {
         } catch (BancoException e) {
             clearScreen();
             System.out.println("\n********** Erro: " + e.getMessage() + " **************");
-
-
-        } catch (DateTimeParseException e) {
-            System.out.println("\n\n ********** Informe o formato de data correta. *********** \n\n");
-
+        } catch (Exception e) {
+            System.out.println("\n\n ********** Erro inesperado: " + e.getMessage() + "*********** \n\n");
         }
     }
 
