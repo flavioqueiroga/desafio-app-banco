@@ -15,9 +15,6 @@ public final class ContaServices {
 
     private static List<Conta> contasCadastradas = new ArrayList<Conta>();
 
-    public static List<Conta> getContasCadastradas() {
-        return contasCadastradas;
-    }
 
     public static Conta obterConta(int numeroConta) {
         return contasCadastradas.stream()
@@ -28,46 +25,31 @@ public final class ContaServices {
 
     public static boolean contaExiste(int numeroConta) {
         return contasCadastradas.stream()
-                .filter(c -> c.getNumero().equals(numeroConta))
-                .findAny()
-                .isPresent();
+                .anyMatch(c -> c.getNumero().equals(numeroConta));
     }
 
-    public Conta criarContaCC(TipoConta tipo, int numConta, int numAgencia, String nomeCliente, Long cpf,
-            LocalDate dataNascimento, double limite) {
-        
+    public Conta criarContaCC(TipoConta tipo, int numConta, int numAgencia, Cliente cliente, double limite) {
         if (contaExiste(numConta)){
             throw new BancoException("Já existe uma conta com este nome");
         }
-        Cliente cliente = criarCliente(nomeCliente, cpf, dataNascimento);
         Conta conta = new ContaCorrente(numConta, numAgencia, cliente, 0.0, LocalDate.now(), limite);
-
         contasCadastradas.add(conta);
 
         return conta;
 
     }
 
-    public Conta criarContaCP(TipoConta tipo, int numConta, int numAgencia, String nomeCliente, Long cpf,
-            LocalDate dataNascimento, double taxaRemuneracao) {
-        
+    public Conta criarContaCP(TipoConta tipo, int numConta, int numAgencia, Cliente cliente, double taxaRemuneracao) {
         if (contaExiste(numConta)){
             throw new BancoException("Já existe uma conta com este número.");
         }
-        Cliente cliente = criarCliente(nomeCliente, cpf, dataNascimento);
         Conta conta = new ContaPoupanca(numConta, numAgencia, cliente, 0.0, LocalDate.now(), taxaRemuneracao);
-
         contasCadastradas.add(conta);
 
         return conta;
-
     }
 
-    private Cliente criarCliente(String nomeCliente, Long cpf, LocalDate dataNascimento) {
 
-        Cliente cliente = new Cliente(nomeCliente, cpf, dataNascimento);
-        return cliente;
-    }
 
     public void alterarLimite(int numeroConta, double novoLimite) {
         Conta conta = obterConta(numeroConta);

@@ -5,42 +5,42 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Set;
 
+import model.entities.Cliente;
 import model.entities.Conta;
 import model.entities.Extrato;
 import model.enums.Operacao;
 import model.enums.TipoConta;
 import model.services.ContaServices;
 import model.services.ExtratoServices;
-import model.services.TransacaoService;
+import model.services.TransacaoServices;
 
 public final class TelaInicial {
 
     private ContaServices contaServices;
-    private TransacaoService transacaoServices;
+    private TransacaoServices transacaoServices;
     private ExtratoServices extratoServices;
 
     public TelaInicial() {
         this.contaServices = new ContaServices();
-        this.transacaoServices = new TransacaoService();
+        this.transacaoServices = new TransacaoServices();
         this.extratoServices = new ExtratoServices();
     }
 
     public String getMenu() {
 
-        StringBuilder texto = new StringBuilder("\n##########  MENU PRINCIPAL ###############\n");
-        texto.append("1. Abertura de Conta.\n");
-        texto.append("2. Efetuar deposito.\n");
-        texto.append("3. Retirada (saque).\n");
-        texto.append("4. Alteração de limite.\n");
-        texto.append("5. Transferencias.\n");
-        texto.append("6. Exportação de histórico de transações (CSV).\n");
-        texto.append("7. Imprimir extrato da conta na tela.\n");
-        texto.append("8. Imprimir todos Depósitos.\n");
-        texto.append("9. Imprimir todos os saques.\n");
-        texto.append("10. Aplicar taxa de remuneração.\n");
-        texto.append("99. SAIR");
+        String texto = "\n##########  MENU PRINCIPAL ###############\n" + "1. Abertura de Conta.\n" +
+                "2. Efetuar deposito.\n" +
+                "3. Retirada (saque).\n" +
+                "4. Alteração de limite.\n" +
+                "5. Transferencias.\n" +
+                "6. Exportação de histórico de transações (CSV).\n" +
+                "7. Imprimir extrato da conta na tela.\n" +
+                "8. Imprimir todos Depósitos.\n" +
+                "9. Imprimir todos os saques.\n" +
+                "10. Aplicar taxa de remuneração.\n" +
+                "99. SAIR";
 
-        return texto.toString();
+        return texto;
     }
 
     public void opcaoAberturaConta(Scanner sc) {
@@ -50,20 +50,19 @@ public final class TelaInicial {
         long cpf = inputLong(sc, "CPF: ");
         LocalDate dataNascimento = inputDate(sc, "Data nascimento (DD/MM/YYYY): ");
         int numConta = inputInt(sc, "Número da conta: ");
-        int numAgencia = inputInt(sc, "Número da agencia: ");
+        int agencia = inputInt(sc, "Número da agencia: ");
         String tipo = inputString(sc, "Tipo da conta (CC (Para conta corrente) ou CP (para conta poupança.)): ");
         TipoConta tipoConta = TipoConta.getPorCodigo(tipo);
 
+        Cliente cliente = new Cliente(nomeCliente, cpf, dataNascimento);
         Conta conta = null;
         if (tipoConta.equals(TipoConta.CORRENTE)) {
             Double limite = inputDouble(sc, "Limite: ");
-            conta = contaServices.criarContaCC(tipoConta, numConta, numAgencia, nomeCliente, cpf, dataNascimento,
-                    limite);
+            conta = contaServices.criarContaCC(tipoConta, numConta, agencia, cliente, limite);
 
         } else if (tipoConta.equals(TipoConta.POUPANCA)) {
-            Double taxaRemuneracao = inputDouble(sc, "Taxa de Remuneração: ");
-            conta = contaServices.criarContaCP(tipoConta, numConta, numAgencia, nomeCliente, cpf, dataNascimento,
-                    taxaRemuneracao);
+            Double remuneracao = inputDouble(sc, "Taxa de Remuneração: ");
+            conta = contaServices.criarContaCP(tipoConta, numConta, agencia, cliente, remuneracao);
         }
         clearScreen();
         System.out.println("\n ******** A conta de número: " + conta.getNumero() + " foi criada com sucesso ! ********");

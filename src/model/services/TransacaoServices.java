@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 import model.entities.Conta;
 import model.exception.BancoException;
 
-public class TransacaoService {
+public class TransacaoServices {
 
     private static final int HORA_LIMITE_DE = 20;
     private static final int HORA_LIMITE_ATE = 6;
     private static final Double VALOR_LIMITE_HORARIO = 500.0; 
 
-    public void depositar(double valor, Integer numeroConta) {
+    public void depositar(double valor, int numeroConta) {
         Conta conta = ContaServices.obterConta(numeroConta);
         conta.deposito(valor);
     }
@@ -21,8 +21,8 @@ public class TransacaoService {
         conta.saque(valor);
     }
 
-    public void transferir(int numeroContaOrigem, int numeroContaDestino, double valor) {
-        if (numeroContaDestino == numeroContaOrigem){
+    public void transferir(int numContaOrigem, int numContaDestino, double valor) {
+        if (numContaDestino == numContaOrigem){
             throw new BancoException("Não é permitido executar transferencias para a mesma conta.");
         }
         int hora = LocalDateTime.now().getHour();
@@ -35,11 +35,11 @@ public class TransacaoService {
                 + HORA_LIMITE_ATE + ":00 horas.");
         }
 
-        Conta contaOrigem = ContaServices.obterConta(numeroContaOrigem);
+        Conta contaOrigem = ContaServices.obterConta(numContaOrigem);
         if (valor > contaOrigem.obterSaldoTransacao()) {
             throw new BancoException("Saldo insuficiente para efetuar a transação");
         }
-        Conta contaDestino = ContaServices.obterConta(numeroContaDestino);
+        Conta contaDestino = ContaServices.obterConta(numContaDestino);
         contaOrigem.saque(valor);
         contaDestino.deposito(valor);
       

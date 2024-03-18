@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import model.entities.Conta;
@@ -14,16 +13,6 @@ import model.enums.Operacao;
 import model.exception.BancoException;
 
 public class ExtratoServices {
-
-    public double filtroDoExtrato(Set<Extrato> extrato, Predicate<Extrato> criteria) {
-        double total = 0.0;
-        for (Extrato e : extrato) {
-            if (criteria.test(e)) {
-                total += e.getValor();
-            }
-        }
-        return total;
-    }
 
     public Set<Extrato> obterExtratoImpressao(int numeroConta) {
         Conta conta = ContaServices.obterConta(numeroConta);
