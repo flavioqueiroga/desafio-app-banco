@@ -2,7 +2,7 @@
 - Aplicação bancária destinada ao usuário funcionário do banco. 
 - Inicialmente possui uma interface básica em CLI.
 
-# :hammer: Funcionalidades do projeto
+## :hammer: Funcionalidades do projeto
 
 - `1`. `Abertura de Contas`: Deverá informar os dados do cliente e escolher entre conta corrente ou conta poupança =).
 - `2`. `Depósito`: Caso o cliente tenha dinheiro sobrando, pode deixar na conta e se for poupança ainda irá render uns trocados.
@@ -24,13 +24,13 @@
 
 - Você pode [acessar o código fonte do projeto ](https://github.com/flavioqueiroga/desafio-app-banco/tree/main) ou [baixá-lo](https://github.com/flavioqueiroga/desafio-app-banco/archive/refs/heads/main.zip)
 - Após efetuar o download do projeto, basta executar a classe principal "Program" no pacote "application", que a aplicação irá abrir o MENU inicial no console ou em sua IDE de preferencia.
-- 
+  
 
-## Utilizando a aplicação
+## :books: Utilizando a aplicação
 1. Assim que iniciar a execução da aplicação como mostrado no item [Como executar o projeto](#wrench-como-executar-o-projeto)
 2. Aparecerá um MENU incial com todas as funcionalidades, cada uma com um respectivo número. Informe o nº da opção para prosseguir.
 3. De acordo com a opção será solicitada a entrada de informações para executar as operações.
-- **Veja exemplo abaixo**: 
+- **Veja exemplo abaixo. Opção 1 - Abertura de contas**: 
 ![ExemploUso (6)](https://github.com/flavioqueiroga/desafio-app-banco/assets/43221104/7fe17ada-6878-4533-a95b-c8c537a696f2)
 
 > [!NOTE]
@@ -39,14 +39,14 @@
 - Exemplo mensagem de erro de conta não encontrada:
 ![Exemplo-Erro](https://github.com/flavioqueiroga/desafio-app-banco/assets/43221104/3086c364-755f-4a6f-95da-7d43c8c633a7)
 
-## Tecnologias Utilizadas
+## :white_check_mark: Tecnologias Utilizadas
 
 - ``Java JDK 21``
 - ``IntelliJ IDEA``
 - ``Paradigma de orientação a objetos e programação funcional ``
 - ``Mermaid (confecção de diagramas).``
 
-## Diagrama de classes
+## :bar_chart: Diagrama de classes
 
 ### Pacote Entidades
 
@@ -152,26 +152,22 @@ classDiagram
 }
 ```
 
-## Diagrama de Sequencia
+## :bar_chart: Diagrama de Sequencia
 
 - Abaixo segue diagram de sequencia mostrando como é o fluxo de execução entre as classes na execução de uma funcionalidade. No exemplo é operador escolhe a opção **"Imprimir todos os depósitos".**
 
 ```mermaid
-sequenceDiagram
-    Actor Operador
-    Operador->>Program: Escolhe "Imprimir todos depósitos"
-    Program->>+TelaInicial: executarOpcao()
-    break lança exceção em caso de erro.
-        TelaInicial-->Program: show failure
+   sequenceDiagram
+       Actor Operador
+       Operador->>Program: Escolhe "Imprimir todos depósitos"
+       Program->>+TelaInicial: executarOpcao()
+       TelaInicial->>+ExtratoServices: obterExtratoResumido()
+       ExtratoServices->>+Conta: obterConta()
+       Conta-->>-ExtratoServices: retorna contas cadastradas
+       ExtratoServices->>+Conta: getExtrato()
+       Conta-->>-ExtratoServices: Lista de depósitos
+       ExtratoServices-->>-TelaInicial: Lista de depósitos 
+       TelaInicial-->>-Program: imprime os depositos
     
-    TelaInicial->>+ExtratoServices: obterExtratoResumido()
-    ExtratoServices->>+Conta: obterConta()
-    Conta-->-ExtratoServices: retorna contas cadastradas
-    ExtratoServices->>+Conta: getExtrato()
-    
-    Conta-->-ExtratoServices: Lista de depósitos
-    ExtratoServices-->-TelaInicial: Lista de depósitos 
-    end
-    TelaInicial-->-Program: imprime os depositos
 
 ```
