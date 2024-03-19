@@ -4,7 +4,7 @@
 
 ## :hammer: Funcionalidades do projeto
 
-- `1`. `Abertura de Contas`: Deverá informar os dados do cliente e escolher entre conta corrente ou conta poupança =).
+- `1`. `Abertura de Contas`: Deverá informar os dados do cliente e escolher entre conta corrente ou conta poupança.
 - `2`. `Depósito`: Caso o cliente tenha dinheiro sobrando, pode deixar na conta e se for poupança ainda irá render uns trocados.
 - `3`. `Saque`: Obviamente precisa ter saldo para efetuar saques. Caso a conta seja corrente, é considerado o saldo da conta + o limite da mesma.
 - `4`. `Alterar Limite`: Altera o limite da conta. Somente para conta corrente.
@@ -14,7 +14,7 @@
   * Saque
   * Depósito
   * Remuneração
-- `7`. `Imprimir extrato da conta na tela`: Imprimi os mesmo dados de histórico de transações na tela. 
+- `7`. `Imprimir extrato da conta na tela`: Imprimi os mesmos dados de histórico de transações na tela. 
 - `8`. `Imprimir todos Depósitos.`: Imprime na tela o histórico de todos os depósitos efetuados.
 - `9`. `Imprimir todos os saques`: Imprime na tela o histórico de todas as retiradas efetuadas.
 - `10`. `Aplicar taxa de remuneração.`: Aplica taxa de remuneração cadastrada na conta e aplica a porcentagem de juros no saldo atual da conta. Somente para conta poupança.
@@ -154,7 +154,7 @@ classDiagram
 
 ## :bar_chart: Diagrama de Sequencia
 
-- Abaixo segue diagram de sequencia mostrando como é o fluxo de execução entre as classes na execução de uma funcionalidade. No exemplo é operador escolhe a opção **"Imprimir todos os depósitos".**
+- Abaixo segue diagram de sequencia mostrando o fluxo de chamadas entre as classes na execução de uma funcionalidade. No exemplo o operador escolhe a opção **"Imprimir todos os depósitos".**
 
 ```mermaid
    sequenceDiagram
