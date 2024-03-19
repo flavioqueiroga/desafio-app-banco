@@ -30,8 +30,9 @@ public class ExtratoServices {
                 bw.newLine();
                 bw.write(ex.getOperacao() + ", " 
                         + ex.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + ", " 
-                        + ex.getValor() + ", " + ex.getSaldoMomentaneo());
+                        + String.format("%.2f",ex.getValor()) + ", " + String.format("%.2f",ex.getSaldoMomentaneo()));
             }
+            //String.format("%.2f", valor)
         } catch (IOException e) {
             throw new BancoException("Erro ao escrever o arquivo extrato: " + e.getMessage());
         } catch (Exception e){

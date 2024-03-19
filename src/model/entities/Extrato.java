@@ -42,8 +42,10 @@ public class Extrato implements Comparable<Extrato> {
 
     @Override
     public String toString() {
-        return "Extrato [operacao: " + operacao + ", Data: " + data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + ", Valor: " + String.format("%.2f", valor) + ", Saldo no momento: "
-                + saldoMomentaneo + "]";
+        return "Extrato [operacao: " + operacao + ", Data: "
+                + data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))
+                + ", Valor: " + String.format("%.2f", valor)
+                + ", Saldo no momento: " + saldoMomentaneo + "]";
     }
 
     
